@@ -1,0 +1,36 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  guild-users:
+    image: guild-users:local
+    restart: always
+    ports:
+      - "50001:50001"
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: test
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8090:8080"
+
+  rabbit:
+    image: rabbitmq:3.10-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
